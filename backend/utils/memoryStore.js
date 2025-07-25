@@ -1,0 +1,1 @@
+export const memoryStore = new Map(); // sessionId => { buffer, collectionName }
