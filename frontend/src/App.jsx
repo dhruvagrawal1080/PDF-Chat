@@ -14,14 +14,14 @@ function App() {
   const [chatInput, setChatInput] = useState("");
   const [messages, setMessages] = useState([]);
   const fileInputRef = useRef();
-  console.log("Env Vars:", import.meta.env);
-  let backendURL = "https://pdf-chat-bfs0.onrender.com"
+  console.log("env vars:", import.meta.env);
+  console.log("Backend URL:", import.meta.env.VITE_BACKEND_URL);
 
   // Cleanup session on tab close
   useEffect(() => {
     return () => {
       if (sessionId) {
-        axios.post(`${backendURL}/api/cleanup`, { sessionId });
+        axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/cleanup`, { sessionId });
       }
     };
   }, [sessionId]);
@@ -55,7 +55,7 @@ function App() {
     try {
       const formData = new FormData();
       formData.append("pdf", pdfFile);
-      const res = await axios.post(`${backendURL}/api/upload`, formData);
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/upload`, formData);
       setSessionId(res.data.sessionId);
       setIsFileUploaded(true); // Go directly to chat after upload/indexing
     } catch (err) {
@@ -73,7 +73,7 @@ function App() {
     setChatInput("");
     setError("");
     try {
-      const res = await axios.post(`${backendURL}/api/ask`, { sessionId, query: chatInput });
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/ask`, { sessionId, query: chatInput });
       setMessages((msgs) => [...msgs, { role: "ai", text: res.data.response }]);
       setChatInput("");
     } catch (err) {
