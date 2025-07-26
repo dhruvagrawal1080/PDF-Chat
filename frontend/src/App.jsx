@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { toast, Toaster } from "sonner";
 import PdfUpload from "./components/PdfUpload";
 import ChatBox from "./components/ChatBox";
 import PdfHeader from "./components/PdfHeader";
@@ -26,7 +27,26 @@ function App() {
   }, [sessionId]);
 
   useEffect(() => {
-    pingServer();
+    // Show loading toast when component mounts
+    const loadingToast = toast.loading("Starting server...");
+
+    // Ping server and show success/error toast
+    const checkServer = async () => {
+      try {
+        await pingServer();
+        toast.success("Server started successfully!", {
+          id: loadingToast,
+          duration: 3000,
+        });
+      } catch (err) {
+        toast.error("Failed to start server", {
+          id: loadingToast,
+          duration: 3000,
+        });
+      }
+    };
+
+    checkServer()
   }, []);
 
   const handleFileChange = (e) => {
@@ -87,8 +107,10 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-400 via-blue-500 to-blue-700 flex flex-col items-center justify-center px-4 py-8">
-      <div className="w-full max-w-xl bg-gradient-to-br from-blue-200/80 via-blue-300/70 to-blue-500/60 backdrop-blur-lg rounded-3xl shadow-2xl p-8 flex flex-col gap-8">
+    <>
+      <Toaster position="top-center" richColors />
+      <div className="min-h-screen bg-gradient-to-br from-blue-400 via-blue-500 to-blue-700 flex flex-col items-center justify-center px-4 py-8">
+        <div className="w-full max-w-xl bg-gradient-to-br from-blue-200/80 via-blue-300/70 to-blue-500/60 backdrop-blur-lg rounded-3xl shadow-2xl p-8 flex flex-col gap-8">
         <h1 className="text-3xl font-extrabold text-center text-amber-700 tracking-tight mb-2">
           PDFChat <span className="text-amber-500">AI</span>
         </h1>
@@ -122,6 +144,7 @@ function App() {
         )}
       </div>
     </div>
+    </>
   );
 }
 
