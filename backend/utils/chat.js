@@ -77,7 +77,7 @@ const handle_general_query = async (state) => {
     const context = docs.map((doc) => `Page ${doc.metadata.page_num}: ${doc.pageContent}`).join("\n\n");
 
     const llm = new ChatGoogleGenerativeAI({
-        model: "gemini-2.5-flash",
+        model: "gemini-2.5-pro",
         apiKey: process.env.GOOGLE_API_KEY1,
     })
 
@@ -125,7 +125,7 @@ const handle_page_query = async (state) => {
     const context = docs.map(doc => `Page ${doc.metadata.page_num}: ${doc.pageContent}`).join("\n\n");
 
     const llm = new ChatGoogleGenerativeAI({
-        model: "gemini-2.5-flash",
+        model: "gemini-2.5-pro",
         apiKey: process.env.GOOGLE_API_KEY1,
     })
 
@@ -175,7 +175,7 @@ const handle_whole_doc_query = async (state) => {
     );
 
     const llm = new ChatGoogleGenerativeAI({
-        model: "gemini-2.5-flash",
+        model: "gemini-2.5-pro",
         apiKey: process.env.GOOGLE_API_KEY1,
     })
 
