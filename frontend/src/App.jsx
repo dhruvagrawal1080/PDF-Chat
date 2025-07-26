@@ -14,7 +14,7 @@ function App() {
   const [chatInput, setChatInput] = useState("");
   const [messages, setMessages] = useState([]);
   const fileInputRef = useRef();
-  console.log("Backend URL:", import.meta.env.VITE_BACKEND_URL);
+  console.log("Env Vars:", import.meta.env);
   let backendURL = "https://pdf-chat-bfs0.onrender.com"
 
   // Cleanup session on tab close
