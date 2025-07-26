@@ -1,4 +1,7 @@
+![Noteflow App Screenshot](./frontend/src/assets/homePage.png)
+
 # PDFChat AI 🤖📄
+Website: [https://pdfchat-ai-frontend.vercel.app](https://pdfchat-ai-frontend.vercel.app)
 
 A modern web application that allows you to chat with your PDF documents using AI. Upload any PDF file and have intelligent conversations about its content with the help of Google's Gemini AI and advanced vector search capabilities.
 
