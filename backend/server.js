@@ -26,6 +26,13 @@ app.get('/', (req, res) => {
   });
 });
 
+app.get("/ping", (req, res) => {
+  res.json({
+    success: true,
+    message: 'Server is alive 👋'
+  });
+});
+
 // Handle Undefined Routes
 app.use((req, res) => {
   res.status(404).json({ success: false, message: 'Route not found' });

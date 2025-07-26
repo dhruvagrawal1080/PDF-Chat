@@ -3,6 +3,7 @@ import axios from "axios";
 import PdfUpload from "./components/PdfUpload";
 import ChatBox from "./components/ChatBox";
 import PdfHeader from "./components/PdfHeader";
+import { pingServer } from "./util/pingServer";
 
 function App() {
   const [pdfFile, setPdfFile] = useState(null);
@@ -23,6 +24,10 @@ function App() {
       }
     };
   }, [sessionId]);
+
+  useEffect(() => {
+    pingServer();
+  }, []);
 
   const handleFileChange = (e) => {
     setError("");
