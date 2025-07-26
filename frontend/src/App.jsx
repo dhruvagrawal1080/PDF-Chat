@@ -68,6 +68,7 @@ function App() {
     if (!chatInput.trim()) return;
     setMessages((msgs) => [...msgs, { role: "user", text: chatInput }]);
     setLoading(true);
+    setChatInput("");
     setError("");
     try {
       const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/ask`, { sessionId, query: chatInput });

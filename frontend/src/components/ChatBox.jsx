@@ -1,5 +1,3 @@
-import React from "react";
-
 const ChatBox = ({ messages, loading, chatInput, onInputChange, onSend }) => (
   <div className="flex flex-col gap-6">
     <div className="h-80 overflow-y-auto bg-white rounded-xl border border-amber-200 p-4 flex flex-col gap-4 shadow-inner" style={{ minHeight: 320 }}>

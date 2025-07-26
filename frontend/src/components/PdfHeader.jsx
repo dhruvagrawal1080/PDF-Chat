@@ -1,5 +1,3 @@
-import React from "react";
-
 const PdfHeader = ({ pdfName, onRemovePdf }) => (
   <div className="flex items-center gap-3 bg-amber-100 px-4 py-2 rounded-lg shadow mb-2">
     <span className="truncate max-w-xs text-amber-800 font-medium">{pdfName}</span>

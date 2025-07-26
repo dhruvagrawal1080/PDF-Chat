@@ -65,9 +65,11 @@ const routeQuery = (state) => {
 };
 
 const handle_general_query = async (state) => {
+    // console.log("handle_general_query")
     const vectorDb = await QdrantVectorStore.fromExistingCollection(embeddings, {
         url: process.env.QDRANT_URL || "http://localhost:6333",
-        collectionName: state.collectionName
+        collectionName: state.collectionName,
+        apiKey: process.env.QDRANT_API_KEY
     });
 
     const docs = await vectorDb.similaritySearch(state.query, 10);
@@ -98,9 +100,11 @@ const handle_general_query = async (state) => {
 };
 
 const handle_page_query = async (state) => {
+    // console.log("handle_page_query")
     const vectorDb = await QdrantVectorStore.fromExistingCollection(embeddings, {
         url: process.env.QDRANT_URL || "http://localhost:6333",
-        collectionName: state.collectionName
+        collectionName: state.collectionName,
+        apiKey: process.env.QDRANT_API_KEY
     });
 
     const filter = {
@@ -144,7 +148,11 @@ const handle_page_query = async (state) => {
 };
 
 const handle_whole_doc_query = async (state) => {
-    const client = new QdrantClient({ url: process.env.QDRANT_URL || "http://localhost:6333" });
+    // console.log("handle_whole_doc_query")
+    const client = new QdrantClient({ 
+        url: process.env.QDRANT_URL || "http://localhost:6333",
+        apiKey: process.env.QDRANT_API_KEY
+    });
 
     // Scroll to fetch all chunks
     let next_page = 0, all_chunks = [];

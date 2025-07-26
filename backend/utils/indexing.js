@@ -1,6 +1,7 @@
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { QdrantVectorStore } from "@langchain/qdrant";
+import { QdrantClient } from "@qdrant/js-client-rest";
 import dotenv from "dotenv";
 import pLimit from "p-limit";
 
@@ -18,7 +19,7 @@ const llmClients = API_KEYS.map(
     (key) =>
         new ChatGoogleGenerativeAI({
             apiKey: key,
-            model: "gemini-2.0-flash",
+            model: "gemini-2.0-flash-lite",
             temperature: 0,
         })
 );
@@ -69,11 +70,40 @@ async function summarizePage(page, idx) {
 
 export async function loadPagesAndIndex(filePath, collectionName) {
     const pages = await loadPages(filePath);
-    const limit = pLimit(5);
+    const limit = pLimit(50);
 
     const summaries = await Promise.all(
         pages.map((page, idx) => limit(() => summarizePage(page, idx)))
     );
+
+    // Ensure collection exists with proper schema
+    const client = new QdrantClient({
+        url: process.env.QDRANT_URL || "http://localhost:6333",
+        apiKey: process.env.QDRANT_API_KEY,
+    });
+
+    // Check and create collection if it doesn't exist
+    const collections = await client.getCollections();
+    const exists = collections.collections.some(c => c.name === collectionName);
+    if (!exists) {
+        await client.createCollection(collectionName, {
+            vectors: { size: 768, distance: "Cosine" },
+        });
+    }
+
+    // Ensure index exists
+    try {
+        await client.createPayloadIndex(collectionName, {
+            field_name: "metadata.page_num",
+            field_schema: { type: "keyword" }
+        });
+        console.log("Index created for metadata.page_num");
+    } catch (err) {
+        if (err?.response?.status !== 409 | err) { // 409 = Already exists
+            throw err;
+        }
+        console.log("Index already exists for metadata.page_num");
+    }
 
     const embeddings = new GoogleGenerativeAIEmbeddings({
         modelName: "embedding-001",
@@ -83,6 +113,7 @@ export async function loadPagesAndIndex(filePath, collectionName) {
     await QdrantVectorStore.fromDocuments(summaries, embeddings, {
         url: process.env.QDRANT_URL || "http://localhost:6333",
         collectionName: collectionName,
+        apiKey: process.env.QDRANT_API_KEY
     });
 
     console.log(`Stored ${summaries.length} summarized pages.`);

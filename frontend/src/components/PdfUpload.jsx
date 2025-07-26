@@ -1,5 +1,3 @@
-import React from "react";
-
 const PdfUpload = ({ pdfName, pdfFile, loading, fileInputRef, onFileChange, onRemovePdf, onUpload }) => (
   <div className="flex flex-col items-center gap-6">
     <label className="w-full flex flex-col items-center px-4 py-8 bg-amber-50 rounded-xl border-2 border-dashed border-amber-300 cursor-pointer hover:bg-amber-100 transition">
@@ -30,7 +28,7 @@ const PdfUpload = ({ pdfName, pdfFile, loading, fileInputRef, onFileChange, onRe
       </div>
     )}
     <button
-      className="w-full mt-2 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-lg shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+      className="w-full mt-2 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-lg shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
       disabled={!pdfFile || loading}
       onClick={onUpload}
     >
