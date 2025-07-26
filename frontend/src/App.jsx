@@ -14,8 +14,6 @@ function App() {
   const [chatInput, setChatInput] = useState("");
   const [messages, setMessages] = useState([]);
   const fileInputRef = useRef();
-  console.log("env vars:", import.meta.env);
-  console.log("Backend URL:", import.meta.env.VITE_BACKEND_URL);
 
   // Cleanup session on tab close
   useEffect(() => {
