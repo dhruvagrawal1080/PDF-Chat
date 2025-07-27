@@ -17,15 +17,6 @@ function App() {
   const [messages, setMessages] = useState([]);
   const fileInputRef = useRef();
 
-  // Cleanup session on tab close
-  useEffect(() => {
-    return () => {
-      if (sessionId) {
-        axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/cleanup`, { sessionId });
-      }
-    };
-  }, [sessionId]);
-
   useEffect(() => {
     // Show loading toast when component mounts
     const loadingToast = toast.loading("Starting server...");
