@@ -31,7 +31,7 @@ A modern web application that allows you to chat with your PDF documents using A
 ### Backend
 - **Node.js** - JavaScript runtime
 - **Express.js** - Web application framework
-- **LangChain** - AI/LLM application framework
+- **LangChain/LangGraph** - AI/LLM application framework
 - **Google Generative AI** - Gemini 2.5 Pro model
 - **Qdrant** - Vector database for semantic search
 - **PDF Parse** - PDF text extraction
